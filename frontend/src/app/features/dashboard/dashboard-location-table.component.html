@@ -1,0 +1,32 @@
+@if (locations().length > 0) {
+  <table>
+    <caption>
+      All observed locations for the selected metric and week. Below-typical locations are listed first, ordered by
+      the largest shortfall; locations without a comparable baseline are listed last.
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Location</th>
+        <th scope="col">Actual count</th>
+        <th scope="col">Baseline average</th>
+        <th scope="col">Signed difference</th>
+        <th scope="col">Percent difference</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of locations(); track row.location) {
+        <tr>
+          <th scope="row">{{ row.location }}</th>
+          <td>{{ row.summary.actualCount }}</td>
+          <td>{{ row.summary.baselineAverage === null ? '\u2014' : (row.summary.baselineAverage | number: '1.1-1') }}</td>
+          <td>{{ signedDifferenceLabel(row.summary.signedDifference) }}</td>
+          <td>{{ percentDifferenceLabel(row.summary.percentDifference) }}</td>
+          <td><span class="badge" [ngClass]="labelClass(row.summary.label)">{{ labelText(row.summary.label) }}</span></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+} @else {
+  <p role="status">No location data is available for this account.</p>
+}

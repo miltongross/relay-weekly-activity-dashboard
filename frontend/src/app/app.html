@@ -1,0 +1,44 @@
+<main class="dashboard">
+  <header class="dashboard-header">
+    <h1>Weekly activity dashboard</h1>
+    <p>Account 1 &mdash; historical weekly comparison against a four-week baseline.</p>
+  </header>
+
+  @if (store.notice(); as notice) {
+    <p class="notice" role="status">{{ notice }}</p>
+  }
+
+  @if (store.loading() && !store.response()) {
+    <p class="loading" role="status" aria-live="polite">Loading weekly activity&hellip;</p>
+  } @else if (store.errorMessage() && !store.response()) {
+    <div class="error" role="alert">
+      <p>{{ store.errorMessage() }}</p>
+      <button type="button" (click)="onRetry()">Retry</button>
+    </div>
+  } @else if (store.response(); as response) {
+    <app-dashboard-controls
+      [metric]="store.metric()"
+      [week]="store.week()"
+      [weekOptions]="store.weekOptions()"
+      (metricChange)="onMetricChange($event)"
+      (weekChange)="onWeekChange($event)"
+    />
+
+    @if (store.loading()) {
+      <p class="updating" role="status" aria-live="polite">Updating&hellip;</p>
+    }
+
+    @if (store.errorMessage(); as error) {
+      <div class="error" role="alert">
+        <p>{{ error }}</p>
+        <button type="button" (click)="onRetry()">Retry</button>
+      </div>
+    }
+
+    <app-dashboard-summary [response]="response" />
+
+    <app-dashboard-location-table [locations]="response.locations" />
+  } @else {
+    <p class="empty" role="status">No activity data is available for this account.</p>
+  }
+</main>

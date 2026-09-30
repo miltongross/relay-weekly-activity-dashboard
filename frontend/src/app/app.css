@@ -1,0 +1,54 @@
+.dashboard {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.75rem;
+}
+
+.dashboard-header p {
+  margin: 0 0 1.5rem 0;
+  color: #444;
+}
+
+.notice {
+  background: #eef4ff;
+  border: 1px solid #a9c6ff;
+  border-radius: 0.35rem;
+  padding: 0.6rem 0.9rem;
+  margin: 0 0 1rem 0;
+}
+
+.loading,
+.updating {
+  color: #444;
+}
+
+.error {
+  background: #fdecea;
+  border: 1px solid #f2b8b5;
+  border-radius: 0.35rem;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.error button {
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+}

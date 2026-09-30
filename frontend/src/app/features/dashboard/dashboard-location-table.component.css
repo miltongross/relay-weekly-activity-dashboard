@@ -1,0 +1,48 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+caption {
+  text-align: left;
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+th,
+td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+thead th {
+  border-bottom: 2px solid #999;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+  border: 2px solid currentColor;
+  font-size: 0.85rem;
+}
+
+.label-typical {
+  color: #1a5fb4;
+}
+
+.label-below {
+  color: #a51d2d;
+}
+
+.label-above {
+  color: #1a6b1a;
+}
+
+.label-none,
+.label-insufficient {
+  color: #5e5c64;
+}

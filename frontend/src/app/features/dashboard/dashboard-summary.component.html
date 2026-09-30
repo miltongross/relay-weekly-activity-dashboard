@@ -1,0 +1,40 @@
+<section aria-labelledby="summary-heading" class="summary-card">
+  <p class="freshness-note">
+    Historical snapshot &mdash; not live data. Latest observed activity: <strong>{{ latestEventLabel() }}</strong>
+    ({{ response().timezone }}).
+  </p>
+
+  <h2 id="summary-heading">{{ metricDisplayName() }} &mdash; week of {{ weekRangeLabel() }}</h2>
+
+  <dl class="stats">
+    <div class="stat">
+      <dt>Actual count</dt>
+      <dd>{{ response().account.actualCount }}</dd>
+    </div>
+
+    @if (showBaseline()) {
+      <div class="stat">
+        <dt>4-week baseline average</dt>
+        <dd>{{ response().account.baselineAverage | number: '1.1-1' }}</dd>
+      </div>
+    }
+
+    @if (showSignedDifference()) {
+      <div class="stat">
+        <dt>Signed difference</dt>
+        <dd>{{ signedDifferenceLabel() }}</dd>
+      </div>
+    }
+
+    @if (showPercent()) {
+      <div class="stat">
+        <dt>Percent difference</dt>
+        <dd>{{ percentDifferenceLabel() }}%</dd>
+      </div>
+    }
+  </dl>
+
+  <p class="status-label">
+    <span class="badge" [ngClass]="labelClass()">{{ labelText() }}</span>
+  </p>
+</section>

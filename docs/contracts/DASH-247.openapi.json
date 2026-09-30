@@ -1,0 +1,316 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Relay.Api | v1",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5099/"
+    }
+  ],
+  "paths": {
+    "/api/accounts/1/weekly-activity": {
+      "get": {
+        "tags": [
+          "WeeklyActivity"
+        ],
+        "summary": "Weekly account and location activity compared against the four-week baseline.",
+        "description": "Read-only aggregation for the single trusted account (id 1). Requires a metric and returns the selected completed local week's actual count, four-week baseline average, signed and percent difference, and a below/above/typical label for the account and every observed location.",
+        "operationId": "GetWeeklyActivity",
+        "parameters": [
+          {
+            "name": "metric",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "week",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeeklyActivityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DatasetCoverage": {
+        "required": [
+          "earliestEventDate",
+          "latestEventDate",
+          "earliestSelectableWeekStart",
+          "latestSelectableWeekStart"
+        ],
+        "type": "object",
+        "properties": {
+          "earliestEventDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "latestEventDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "earliestSelectableWeekStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "latestSelectableWeekStart": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "HttpValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "LocationMetricSummary": {
+        "required": [
+          "location",
+          "summary"
+        ],
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/MetricSummary"
+          }
+        }
+      },
+      "MetricLabel": {
+        "enum": [
+          "Typical",
+          "BelowTypical",
+          "AboveTypical",
+          "NoPriorActivity",
+          "InsufficientHistory"
+        ]
+      },
+      "MetricSummary": {
+        "required": [
+          "actualCount",
+          "baselineAverage",
+          "signedDifference",
+          "percentDifference",
+          "label"
+        ],
+        "type": "object",
+        "properties": {
+          "actualCount": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "baselineAverage": {
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ],
+            "format": "double"
+          },
+          "signedDifference": {
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ],
+            "format": "double"
+          },
+          "percentDifference": {
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ],
+            "format": "double"
+          },
+          "label": {
+            "$ref": "#/components/schemas/MetricLabel"
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "WeeklyActivityResponse": {
+        "required": [
+          "accountId",
+          "metric",
+          "weekStart",
+          "weekEnd",
+          "timezone",
+          "coverage",
+          "account",
+          "locations"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "metric": {
+            "type": "string"
+          },
+          "weekStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "weekEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "coverage": {
+            "$ref": "#/components/schemas/DatasetCoverage"
+          },
+          "account": {
+            "$ref": "#/components/schemas/MetricSummary"
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LocationMetricSummary"
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "WeeklyActivity"
+    }
+  ]
+}

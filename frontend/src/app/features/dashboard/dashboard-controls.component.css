@@ -1,0 +1,30 @@
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+select {
+  padding: 0.4rem 0.5rem;
+  font-size: 1rem;
+  min-width: 14rem;
+}
+
+select:focus-visible {
+  outline: 3px solid #1a5fb4;
+  outline-offset: 2px;
+}

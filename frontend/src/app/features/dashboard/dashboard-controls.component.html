@@ -1,0 +1,29 @@
+<fieldset class="controls">
+  <legend>Filters</legend>
+
+  <div class="control">
+    <label for="metric-select">Metric</label>
+    <select
+      id="metric-select"
+      name="metric"
+      (change)="onMetricChange($any($event.target).value)"
+    >
+      @for (option of metrics; track option) {
+        <option [value]="option" [selected]="option === metric()">{{ metricDisplayNames[option] }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="control">
+    <label for="week-select">Completed week</label>
+    <select
+      id="week-select"
+      name="week"
+      (change)="onWeekChange($any($event.target).value)"
+    >
+      @for (option of weekOptions(); track option) {
+        <option [value]="option" [selected]="option === week()">Week of {{ weekLabel(option) }}</option>
+      }
+    </select>
+  </div>
+</fieldset>
