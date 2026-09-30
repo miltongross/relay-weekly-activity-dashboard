@@ -77,9 +77,9 @@ The [approved specification](docs/specs/DASH-247.md) owns the full rules.
 
 ### Database: migration and seed (fresh, isolated database)
 
-All commands below run from the **repo root** (`training_mg/`). The EF Core local tool is pinned
-by the manifest at `backend/dotnet-tools.json`. Restore it once, pointing at that manifest, so
-`dotnet ef` resolves to the pinned version:
+All commands below run from the **repo root** (`relay-weekly-activity-dashboard/`). The EF Core local
+tool is pinned by the manifest at `backend/dotnet-tools.json`. Restore it once, pointing at that
+manifest, so `dotnet ef` resolves to the pinned version:
 
 ```powershell
 dotnet tool restore --tool-manifest backend/dotnet-tools.json
